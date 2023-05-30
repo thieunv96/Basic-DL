@@ -2,4 +2,6 @@
 *.npy
 *.csv
 *.log
-003_SimpleCNN/data
+*/data
+*/logs
+*/checkpoint*

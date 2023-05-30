@@ -1,0 +1,11 @@
+model:
+  pretrained: checkpoints/Lenet_best_model.pth
+  model_name: Lenet
+  lr: 0.01
+  optimizer: Adam
+  epochs: 100
+
+dataset:
+  dataset_name: MNIST
+  train_batch_size: 512
+  eval_batch_size: 256

@@ -7,6 +7,7 @@ import torch
 import numpy as np
 from src.nets import build_model
 from src.feeder import get_feeder
+import time, tqdm
 
 def main(config):
     net = build_model(config['model'])
@@ -21,6 +22,7 @@ def main(config):
     else:
         print(f"[ERROR] Can't found pretrained_path: {pretrained_path}")
     if use_gpu:
+        print("[INFO] training on GPU")
         net = net.cuda()
     optimizer = Adam(net.parameters(), lr=config['model']['lr'])
     criterion = CrossEntropyLoss()
@@ -29,9 +31,10 @@ def main(config):
     checkpoints_path = "checkpoints"
     os.makedirs(checkpoints_path, exist_ok=True)
     for e in range(1, config['model']['epochs'] + 1):
+        start_time = time.time()
         net.train()
         train_loss = []
-        for x, y in train_loader:
+        for x, y in tqdm.tqdm(train_loader):
             if use_gpu:
                 x = x.cuda()
                 y = y.cuda()
@@ -43,7 +46,7 @@ def main(config):
             optimizer.step()
         net.eval()
         val_loss = []
-        for x, y in val_loader:
+        for x, y in tqdm.tqdm(val_loader):
             if use_gpu:
                 x = x.cuda()
                 y = y.cuda()
@@ -52,7 +55,8 @@ def main(config):
             val_loss.append(loss.item())
         log_writer.add_scalar(f'loss/train', np.mean(train_loss), e)
         log_writer.add_scalar(f'loss/val', np.mean(val_loss), e)
-        print("[LOG] epoch: {}, train_loss={:.5f}, val_loss={:.5f}".format(e, np.mean(train_loss), np.mean(val_loss)))
+        time_elaps = time.time() - start_time
+        print("[LOG] epoch: {}, train_loss={:.5f}, val_loss={:.5f}, training time: {:.5f}".format(e, np.mean(train_loss), np.mean(val_loss), time_elaps))
         torch.save(net.state_dict(), f"{checkpoints_path}/{model_name}_best_model.pth")
     
     

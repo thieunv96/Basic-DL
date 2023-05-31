@@ -18,7 +18,7 @@
 - CPU: G4600
 - Memory: 8Gb
 
-## Eviroments
+## Environments & Libraries
 - Python: 3.7.4
 - Pytorch
 - OpenCV

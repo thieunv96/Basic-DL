@@ -4,4 +4,5 @@
 *.log
 */data
 */logs
+*/__pycache__*
 */checkpoint*

@@ -12,13 +12,14 @@ guideline and use ReLU as our activation function later in this section.
 class Letnet(nn.Module):
     def __init__(self, num_classes=10):
         super(Letnet, self).__init__()
-        self.net = nn.Sequential(
+        self.bb = nn.Sequential(
             nn.LazyConv2d(6, kernel_size=5, padding=2), 
             nn.ReLU(),
             nn.AvgPool2d(kernel_size=2, stride=2),
             nn.LazyConv2d(16, kernel_size=5), 
             nn.ReLU(),
-            nn.AvgPool2d(kernel_size=2, stride=2),
+            nn.AvgPool2d(kernel_size=2, stride=2))
+        self.cls = nn.Sequential(
             nn.Flatten(),
             nn.LazyLinear(120), 
             nn.ReLU(),
@@ -28,4 +29,5 @@ class Letnet(nn.Module):
             nn.Softmax(dim=1))
         
     def forward(self, x):
-        return self.net(x)
+        x = self.bb(x)
+        return self.cls(x)

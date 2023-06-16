@@ -15,5 +15,5 @@ def get_feeder(dataset_cfg, train=True):
         ds = CIFAR10('data', train=train, transform=trans, download=True)
     else:
         raise "Could not find your dataset"
-    loader = DataLoader(ds, batch_size=batch_size, shuffle=True)
+    loader = DataLoader(ds, batch_size=batch_size, shuffle=False)
     return ds, loader

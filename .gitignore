@@ -3,7 +3,8 @@
 *.csv
 *.log
 */data
-*/logs
 */__pycache__/*
 */checkpoint*
 *.pyc
+*logs*
+*.DS_Store*

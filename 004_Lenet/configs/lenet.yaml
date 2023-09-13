@@ -1,5 +1,5 @@
 model:
-  pretrained: checkpoints/Lenet_best_model.pth
+  pretrained: 
   model_name: Lenet
   lr: 0.001
   optimizer: Adam

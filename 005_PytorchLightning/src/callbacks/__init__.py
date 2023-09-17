@@ -1,1 +1,1 @@
-from pytorch_lightning .callbacks import ModelCheckpoint, Checkpoint
+from lightning.pytorch.callbacks import ModelCheckpoint, Checkpoint

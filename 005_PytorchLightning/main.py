@@ -2,7 +2,7 @@ from src.feeder import MnistData
 from src.nets import TinyVGG
 from src.callbacks import ModelCheckpoint
 import torch
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 from torch.multiprocessing import set_start_method
 import argparse
 
@@ -15,7 +15,7 @@ def train():
     checkpoint_saver = ModelCheckpoint(dirpath="checkpoints", filename="best_checkpoint")
     trainer = pl.Trainer(min_epochs=1, max_epochs=EPOCHS, callbacks=[checkpoint_saver])
     model = TinyVGG(NUM_CLASS)
-    dm = MnistData("./data", BATCH_SIZE, 0)
+    dm = MnistData("./data", BATCH_SIZE, 8)
     trainer.fit(model, dm)
     trainer.validate(model, dm)
 

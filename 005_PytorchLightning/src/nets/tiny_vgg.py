@@ -1,7 +1,6 @@
 from typing import Any, Optional
-from pytorch_lightning.utilities.types import STEP_OUTPUT
 from torch import nn 
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 from torchmetrics import Accuracy
 import torch
 
@@ -33,43 +32,31 @@ class TinyVGG(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         loss, y_preds, y = self.common_step(batch, batch_idx)
         acc = self.accuracy(y_preds, y)
-        self.log_dict(
-            {
-                "train_loss":loss,
-                "train_acc":acc
-            },
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True
-        )
+        self.log("train_loss", loss, on_epoch=True, prog_bar=True)
+        self.log("train_acc", acc, on_epoch=True, prog_bar=True)
+        # self.log_dict(
+        #     {
+        #         "train_loss":loss,
+        #         "train_acc":acc
+        #     },
+        #     on_step=False,
+        #     on_epoch=True,
+        #     prog_bar=True
+        # )
         return loss
     
     def validation_step(self, batch, batch_idx):
         loss, y_preds, y = self.common_step(batch, batch_idx)
         acc = self.accuracy(y_preds, y)
-        self.log_dict(
-            {
-                "val_loss":loss,
-                "val_acc":acc
-            },
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True
-        )
+        self.log("val_loss", loss, on_epoch=True, prog_bar=True)
+        self.log("val_acc", acc, on_epoch=True, prog_bar=True)
         return loss
     
     def test_step(self, batch, batch_idx):
         loss, y_preds, y = self.common_step(batch, batch_idx)
         acc = self.accuracy(y_preds, y)
-        self.log_dict(
-            {
-                "test_loss":loss,
-                "test_acc":acc
-            },
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True
-        )
+        self.log("test_loss", loss, on_epoch=True, prog_bar=True)
+        self.log("test_acc", acc, on_epoch=True, prog_bar=True)
         return loss
     
     def predict_step(self, batch: Any, batch_idx: int, dataloader_idx: int = 0) -> Any:

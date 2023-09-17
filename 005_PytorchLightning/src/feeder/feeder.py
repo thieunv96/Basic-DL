@@ -1,9 +1,8 @@
-from pytorch_lightning.utilities.types import TRAIN_DATALOADERS
 import torch
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 from torch import nn, optim
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 from torch.utils.data import DataLoader, random_split
 
 
